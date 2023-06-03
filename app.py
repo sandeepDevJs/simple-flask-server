@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 
 app=Flask(__name__)
 
@@ -6,9 +6,22 @@ app=Flask(__name__)
 def welcome():
     return "Welcome to youtube channel yoyo"
 
-@app.route('/hello')
-def hello():
-    return "Hello bhaiya"
+@app.route('/success/<int:score>')
+def success(score):
+    return "You passed with score "+str(score)
+
+@app.route('/fail/<int:score>')
+def fail(score):
+    return "You failed with score "+str(score)
+
+@app.route('/result/<int:marks>')
+def resultpage(marks):
+    result =""
+    if marks > 35:
+        result = "success"
+    else:
+        result = "fail"
+    return redirect(url_for(result, score=marks))
 
 
 if __name__=='__main__':
